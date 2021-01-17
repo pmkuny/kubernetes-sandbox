@@ -32,7 +32,7 @@ spec:
       volumes:
         - name: grafana-storage
           persistentVolumeClaim:
-            claimName: grafana-pv-claim
+            claimName: grafana-pvc
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534
