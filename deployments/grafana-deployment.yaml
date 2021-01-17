@@ -9,7 +9,7 @@ metadata:
     tier: frontend
   namespace: infrastructure
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: grafana
@@ -23,3 +23,18 @@ spec:
         image: grafana/grafana
         ports:
         - containerPort: 3000
+        env:
+        - name: GF_INSTALL_PLUGINS
+          value: "grafana-kubernetes-app"
+        volumeMounts:
+        -  mountPath: /var/lib/grafana
+           name: grafana-storage
+      volumes:
+        - name: grafana-storage
+          persistentVolumeClaim:
+            claimName: grafana-pv-claim
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        fsGroup: 472
+        
