@@ -5,12 +5,13 @@ Build out to help learn Kubernetes and build out a cloud homelab.
 ## Providers
 * Cloud: AWS 
 * Cloud IaC: Terraform
-* Monitoring: Prometheus
+* Monitoring: Prometheus, CloudWatch
 * Visualization: Grafana
 * Kubernetes Managemenet Plane: AWS EKS
 * Container Orchestration: Kubernetes
 * Container Engine: Docker
 * Configuration Management: Ansible
+* Extensioning: Helm
 
 ## Phase
 Phase 1: Initial Deployment - working on deploying Kubernetes, and Grafana, using best practices. Retroactively moving over to Terraform over manual.
