@@ -2,7 +2,7 @@
 
 Build out to help learn Kubernetes and build out a cloud homelab.
 
-![arch]("docs/Kubernetes Sandbox (AWS HL).png")
+See the docs folder for technical specs.
 
 ## Providers
 * Cloud: AWS 
