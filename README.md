@@ -17,6 +17,7 @@ Build out to help learn Kubernetes and build out a cloud homelab.
 Phase 1: Initial Deployment - working on deploying Kubernetes, and Grafana, using best practices. Retroactively moving over to Terraform over manual.
 
 ## Project Milestones
+* Architecture Diagram
 * Terraform Deployment
 * Grafana Deployment
 * Hashicorp Suite - Vault, Consul Deployed
