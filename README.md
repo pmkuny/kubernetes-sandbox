@@ -21,7 +21,7 @@ See the docs folder for technical specs.
 Phase 1: Initial Deployment - working on deploying Ceph storage and figuring out architecture. Initial manual deployment will be retroactively switched over to Terraform
 
 ## Project Milestones
-* Architecture Diagram
+* Architecture Diagram (DONE)
 * Terraform Deployment
 * Grafana Deployment
 * Hashicorp Suite - Vault, Consul Deployed
