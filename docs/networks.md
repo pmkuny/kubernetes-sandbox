@@ -16,6 +16,6 @@
 |Kubernetes | public-uw2b | Subnet | Public | us-west-2b | 10.20.2.0/24 |
 |Sandbox | Sandbox | VPC | | | 10.30.0.0/16 |
 |Sandbox | admin-uw2a | Subnet | Management | us-west-2a | 10.30.5.0/28 |
-
+|EFS | EFS| VPC | | | 10.40.0.0/16 |
 
 
