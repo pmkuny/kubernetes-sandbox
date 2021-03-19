@@ -19,6 +19,7 @@ See the docs folder for technical specs.
 
 ## Phase
 ~Phase 1: Initial Deployment - working on deploying Ceph storage and figuring out architecture. Initial manual deployment will be retroactively switched over to Terraform~
+
 Phase 1: EFS Setup
 
 ## Project Milestones
