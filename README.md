@@ -6,11 +6,10 @@ See the docs folder for technical specs.
 
 ## Providers
 * Cloud: AWS 
-* Cloud IaC: Terraform
+* Cloud IaC: CloudFormation
 * Monitoring: Prometheus, CloudWatch
-* Storage Backplane: ~Ceph~ EFS
+* Storage Backplane: EFS
 * Visualization: Grafana
-* Kubernetes Managemenet Plane: AWS EKS
 * Container Orchestration: Kubernetes
 * Container Engine: Docker
 * Configuration Management: Ansible
@@ -18,13 +17,11 @@ See the docs folder for technical specs.
 
 
 ## Phase
-~Phase 1: Initial Deployment - working on deploying Ceph storage and figuring out architecture. Initial manual deployment will be retroactively switched over to Terraform~
-
 Phase 1: EFS Setup
 
 ## Project Milestones
-* Architecture Diagram (DONE)
-* Terraform Deployment
+* CloudFormation Deployment
+* Kubernetes Configuration (namespaces, storage, etc)
 * Grafana Deployment
 * Hashicorp Suite - Vault, Consul Deployed
 * Ansible Deployment on some resources - TBD - might spin up AWX for fun.

@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Base Networking Stack
+
+Parameters:
+  pVpcName:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: "/kubernetes/parameters/networking/pVpcName"
+  pVpcCidr: 
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: "/kubernetes/parameters/networking/pVpcCidr"
+  pPublicSubnet01Cidr:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: "/kubernetes/parameters/networking/pPublicSubnet01Cidr"
+  pControlPlaneSubnet01Cidr:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: "/kubernetes/parameters/networking/pControlPlaneSubnet01Cidr"
+  pControlPlaneSubnet02Cidr:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: "/kubernetes/parameters/networking/pControlPlaneSubnet02Cidr"
+  pWorkerPlaneSubnet01Cidr:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: "/kubernetes/parameters/networking/pWorkerPlaneSubnet01Cidr"
+  pWorkerPlaneSubnet02Cidr:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: "/kubernetes/parameters/networking/pWorkerPlaneSubnet02Cidr"
+
+Resources:
+  rVpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref pVpcCidr
+      EnableDnsHostnames: True
+      EnableDnsSupport: True
+      Tags:
+        - Key: Name
+          Value: !Ref pVpcName
+
+  rPublicSubnet01:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Select [ 0, !GetAZs "us-west-2" ]
+      CidrBlock: !Ref pPublicSubnet01Cidr
+      MapPublicIpOnLaunch: True
+      VpcId: !Ref rVpc
+
+    
+
+
+      
