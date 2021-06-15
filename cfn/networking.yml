@@ -1,3 +1,8 @@
+---
+
+# Kubernetes Cluster
+# Basic Networking Stack
+
 AWSTemplateFormatVersion: "2010-09-09"
 
 Description: Base Networking Stack
@@ -12,6 +17,9 @@ Parameters:
   pPublicSubnet01Cidr:
     Type: AWS::SSM::Parameter::Value<String>
     Default: "/kubernetes/parameters/networking/pPublicSubnet01Cidr"
+  pPublicSubnet02Cidr:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: "/kubernetes/parameters/networking/pPublicSubnet02Cidr"
   pControlPlaneSubnet01Cidr:
     Type: AWS::SSM::Parameter::Value<String>
     Default: "/kubernetes/parameters/networking/pControlPlaneSubnet01Cidr"
@@ -36,6 +44,8 @@ Resources:
         - Key: Name
           Value: !Ref pVpcName
 
+# Declare our subnets - one public subnet and four private subnets, two for the worker plane, two for the control plane.
+
   rPublicSubnet01:
     Type: AWS::EC2::Subnet
     Properties:
@@ -43,8 +53,89 @@ Resources:
       CidrBlock: !Ref pPublicSubnet01Cidr
       MapPublicIpOnLaunch: True
       VpcId: !Ref rVpc
+      Tags: 
+        - Key: Name
+          Value: !Sub "public-subnet-us-west-2a"
 
-    
+  rPublicSubnet02:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Select [ 0, !GetAZs "us-west-2" ]
+      CidrBlock: !Ref pPublicSubnet02Cidr
+      MapPublicIpOnLaunch: True
+      VpcId: !Ref rVpc
+      Tags: 
+        - Key: Name
+          Value: !Sub "public-subnet-us-west-2a"
 
+  rControlPlaneSubnet01:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Select [ 0, !GetAZs "us-west-2" ] 
+      CidrBlock: !Ref pControlPlaneSubnet01Cidr
+      VpcId: !Ref rVpc
+      Tags:
+        - Key: Name
+          Value: "control-plane-us-west-2a"
 
+  rControlPlaneSubnet02:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Select [ 1, !GetAZs "us-west-2" ] 
+      CidrBlock: !Ref pControlPlaneSubnet02Cidr
+      VpcId: !Ref rVpc
+      Tags:
+        - Key: Name
+          Value: "control-plane-us-west-2b"
+
+  rWorkerPlaneSubnet01:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Select [ 0, !GetAZs "us-west-2" ] 
+      CidrBlock: !Ref pWorkerPlaneSubnet01Cidr
+      VpcId: !Ref rVpc
+      Tags:
+        - Key: Name
+          Value: "worker-plane-us-west-2a"
+
+  rWorkerPlaneSubnet02:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Select [ 1, !GetAZs "us-west-2" ] 
+      CidrBlock: !Ref pWorkerPlaneSubnet02Cidr
+      VpcId: !Ref rVpc
+      Tags:
+        - Key: Name
+          Value: "control-plane-us-west-2b"
+
+    # Network Constructs; Internet Gateway, NAT Gateway, Route Tables, etc.
+  
+  rInternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Sub "{pVpcName}-IGW"
+
+  # Two Elastic IPs for our NAT Gateways
+
+  rPrivateSubnet01NatGatewayElasticIP:
+    Type: AWS::EC2::EIP
       
+  rPrivateSubnet02NatGatewayElasticIP:
+    Type: AWS::EC2::EIP
+
+  # NAT Gateway for each public subnet, because NAT Gateways are only HA inside an availability zone. For a dual-AZ configuration, we need
+  # two NAT Gateways that are in different AZs.
+
+  rPrivateSubnet01NatGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !Ref rPrivateSubnet01NatGatewayElasticIP
+      SubnetId: !Ref rPublicSubnet01
+
+  rPrivateSubnet02NatGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !Ref rPrivateSubnet02NatGatewayElasticIP
+      SubnetId: !Ref rPublicSubnet02

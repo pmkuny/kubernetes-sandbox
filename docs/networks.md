@@ -1,3 +1,5 @@
+## Outdated
+
 | System | Name | Type | Purpose | AZ | CIDR |
 |--------|------|------|---------|----|------|
 |Kubernetes| Kubernetes | VPC | | | 10.20.0.0/16 |
